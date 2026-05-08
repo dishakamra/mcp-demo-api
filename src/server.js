@@ -7,10 +7,16 @@ app.use(express.json());
 app.get("/health", (req, res) => res.json({ status: "ok" }));
 app.use("/products", productsRouter);
 
+function start() {
+  const port = process.env.PORT || 3000;
+  return app.listen(port, () => console.log(`API listening on http://localhost:${port}`));
+}
+
+app.start = start;
+
 // Export for tests
 module.exports = app;
 
 if (require.main === module) {
-  const port = process.env.PORT || 3000;
-  app.listen(port, () => console.log(`API listening on http://localhost:${port}`));
+  start();
 }
